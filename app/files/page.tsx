@@ -1,6 +1,7 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
+<<<<<<< Updated upstream
 import { toast } from '@/components/ui/use-toast';
 import { Database } from '@/supabase/functions/_lib/database';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
@@ -26,6 +27,15 @@ export default function FilesPage() {
 
     return data;
   });
+=======
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+
+export default function FilesPage() {
+  const supabase = createClientComponentClient();
+  
+  // TODO: request documents from supabase
+  const documents: any[] = [];
+>>>>>>> Stashed changes
 
   return (
     <div className="max-w-6xl m-4 sm:m-10 flex flex-col gap-8 grow items-stretch">
@@ -38,6 +48,7 @@ export default function FilesPage() {
             const selectedFile = e.target.files?.[0];
 
             if (selectedFile) {
+<<<<<<< Updated upstream
               const { error } = await supabase.storage
                 .from('files')
                 .upload(
@@ -55,6 +66,14 @@ export default function FilesPage() {
               }
 
               router.push('/chat');
+=======
+              await supabase.storage
+                .from('files')
+                .upload(
+                  `${crypto.randomUUID()}/${selectedFile.name}`, 
+                  selectedFile
+                );
+>>>>>>> Stashed changes
             }
           }}
         />
