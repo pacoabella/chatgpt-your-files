@@ -1,3 +1,62 @@
+<img alt="pgvector to Prod in 2 hours" src="./assets/hero.png">
+<h1 align="center">Workshop: pgvector to Prod in 2 hours</h1>
+
+<p align="center">
+Create a production-ready MVP for securely chatting with your documents.
+</p>
+
+<p>
+virtualenv Chat-01
+source bin/activate 
+npm i
+npx supabase status  
+
+</p>
+
+
+## 🎥 YouTube video
+
+This entire workshop was recorded as a YouTube video. Feel free to watch it here:
+
+https://www.youtube.com/watch?v=ibzlEQmgPPY
+
+<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+<<<
+Migracion
+<<<
+
+create schema private;
+
+insert into storage.buckets (id, name)
+values ('files', 'files')
+
+create policy "Authenticated users can upload files"
+on storage.objects for insert to authenticated with check (
+  bucket_id = 'files' and owner = auth.uid()
+);
+
+create policy "Users can view their own files"
+on storage.objects for select to authenticated using (
+  bucket_id = 'files' and owner = auth.uid()
+);
+
+create policy "Users can update their own files"
+on storage.objects for update to authenticated with check (
+  bucket_id = 'files' and owner = auth.uid()
+);
+
+create policy "Users can delete their own files"
+on storage.objects for delete to authenticated using (
+  bucket_id = 'files' and owner = auth.uid()
+);
+<<<
+
+<<< Terminal <<
+npm run dev
+<<<
+
+<<< app/files/page <<<
+
 'use client';
 
 import { Input } from '@/components/ui/input';
@@ -6,7 +65,7 @@ import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
 export default function FilesPage() {
   const supabase = createClientComponentClient();
 
-  const documents: any [] = [];
+  const documents: any[] = [];
 
   return (
     <div className="max-w-6xl m-4 sm:m-10 flex flex-col gap-8 grow items-stretch">
@@ -25,7 +84,6 @@ export default function FilesPage() {
                   `${crypto.randomUUID()}/${selectedFile.name}`, 
                   selectedFile
                 );
-
             }
           }}
         />
@@ -77,3 +135,6 @@ export default function FilesPage() {
     </div>
   );
 }
+
+
+<<<<<<<<<<<<<<<<<<<<<

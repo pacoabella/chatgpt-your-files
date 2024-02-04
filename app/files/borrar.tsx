@@ -1,12 +1,31 @@
 'use client';
 
 import { Input } from '@/components/ui/input';
+import { toast } from '@/components/ui/use-toast';
+import { Database } from '@/supabase/functions/_lib/database';
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs';
+import { useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 export default function FilesPage() {
   const supabase = createClientComponentClient();
+  const router = useRouter();
 
-  const documents: any [] = [];
+  const { data: documents } = useQuery(['files'], async () => {
+    const { data, error } = await supabase
+      .from('documents_with_storage_path')
+      .select();
+
+    if (error) {
+      toast({
+        variant: 'destructive',
+        description: 'Failed to fetch documents',
+      });
+      throw error;
+    }
+
+    return data;
+  });
 
   return (
     <div className="max-w-6xl m-4 sm:m-10 flex flex-col gap-8 grow items-stretch">
@@ -25,7 +44,6 @@ export default function FilesPage() {
                   `${crypto.randomUUID()}/${selectedFile.name}`, 
                   selectedFile
                 );
-
             }
           }}
         />
